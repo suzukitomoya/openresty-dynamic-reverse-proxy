@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  openresty:
+    image: openresty/openresty:1.21.4.1-jammy
+    volumes:
+      - "./openresty/conf.d:/etc/nginx/conf.d"
+      - "./openresty/lua:/etc/nginx/lua"
+    ports:
+      - "80:80"
+    depends_on:
+      - redis
+      - nginx
+
+  nginx:
+   image: nginx:1.22
+   volumes:
+     - "./nginx/conf.d:/etc/nginx/conf.d"
+   expose:
+     - "81"
+
+  redis:
+    image: redis:7.0
